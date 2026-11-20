@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/frame-quality-demo.html" }
+  ]
+}

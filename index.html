@@ -442,19 +442,20 @@ input[type=range]::-moz-range-thumb{width:15px;height:15px;border:4px solid var(
   function drawAware(mbps, time) {
     drawBackground(bgCtx, time);
     const u = clamp((mbps - 0.4) / (5.0 - 0.4), 0, 1);
-    // Keep the background at or below baseline quality; extra detail goes to subject and UI.
-    const resolution = .10 + .90 * Math.pow(u, 1.05);
-    const blur = .18 + 2.45 * (1 - u);
+    // Make the background visibly coarser; subject and UI are drawn sharply on top.
+    const resolution = .08 + .92 * Math.pow(u, 1.15);
+    const blur = .35 + 1.8 * (1 - u);
     setCanvasSize(bgLow, W * resolution, H * resolution);
     bgLowCtx.clearRect(0, 0, bgLow.width, bgLow.height);
     bgLowCtx.imageSmoothingEnabled = true; bgLowCtx.imageSmoothingQuality = 'low';
     bgLowCtx.drawImage(bgCanvas, 0, 0, bgLow.width, bgLow.height);
 
     awareCtx.clearRect(0, 0, W, H);
-    awareCtx.imageSmoothingEnabled = true; awareCtx.imageSmoothingQuality = 'medium';
+    awareCtx.imageSmoothingEnabled = false;
     awareCtx.filter = `blur(${blur.toFixed(2)}px)`;
     awareCtx.drawImage(bgLow, 0, 0, W, H);
     awareCtx.filter = 'none';
+    awareCtx.imageSmoothingEnabled = true; awareCtx.imageSmoothingQuality = 'medium';
 
     subjectFullCtx.clearRect(0, 0, W, H);
     drawSubject(subjectFullCtx, time);
@@ -556,5 +557,5 @@ input[type=range]::-moz-range-thumb{width:15px;height:15px;border:4px solid var(
   requestAnimationFrame(animate);
 })();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5d515b85d226e60',t:'MTc5NTE1Mjg1OA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5d515b85d226e60',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
